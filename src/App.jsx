@@ -1,4 +1,4 @@
-import React, { useEffect ,useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import Home from "./Component/Home/Home.jsx";
 import Footer from "./Component/Footer/Footer.jsx";
 import Navbar from "./Component/Navbar/Navbar.jsx";
@@ -12,6 +12,8 @@ import Login from "./Component/Login/Login.jsx";
 import NotFound from "./Component/NotFound/NotFound.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { UserContext } from "./Context/UserContext.js";
+import ProtectedRoute from "./Component/ProtectedRoute/ProtectedRoute.jsx";
+import ProductDetails from "./Component/ProductDetails/ProductDetails.jsx";
 
 export default function App() {
   let routers = createBrowserRouter([
@@ -19,11 +21,54 @@ export default function App() {
       path: "",
       element: <Layout />,
       children: [
-        { index: true, element: <Home /> },
-        { path: "cart", element: <Cart /> },
-        { path: "brands", element: <Brands /> },
-        { path: "categories", element: <Categories /> },
-        { path: "products", element: <Products /> },
+        {
+          index: true,
+          element: (
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "cart",
+          element: (
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "brands",
+          element: (
+            <ProtectedRoute>
+              <Brands />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "categories",
+          element: (
+            <ProtectedRoute>
+              <Categories />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "products",
+          element: (
+            <ProtectedRoute>
+              <Products />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "productDetails/:id",
+          element: (
+            <ProtectedRoute>
+              <ProductDetails />
+            </ProtectedRoute>
+          ),
+        },
         { path: "Register", element: <Register /> },
         { path: "login", element: <Login /> },
         { path: "*", element: <NotFound /> },
@@ -33,11 +78,10 @@ export default function App() {
 
   let { setUserToken } = useContext(UserContext);
   useEffect(() => {
-     if (localStorage.getItem("userToken")) {
-       setUserToken(localStorage.getItem("userToken"));
-     }
-  }, [])
-  
+    if (localStorage.getItem("userToken")) {
+      setUserToken(localStorage.getItem("userToken"));
+    }
+  }, []);
 
   return (
     <>

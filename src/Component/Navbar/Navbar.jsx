@@ -1,11 +1,20 @@
 import React, { useContext } from "react";
 import style from "./Navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../Assets/images/freshcart-logo.svg";
 import { UserContext } from "../../Context/UserContext";
 
 export default function Navbar() {
-  let { userToken } = useContext(UserContext);
+  let { userToken, setUserToken } = useContext(UserContext);
+
+  let navigate = useNavigate();
+
+  function logOut() {
+    localStorage.removeItem("userToken");
+    setUserToken(null);
+    navigate("/login");
+  }
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -69,7 +78,9 @@ export default function Navbar() {
               {userToken != null ? (
                 <>
                   <li className="nav-item">
-                    <span className="nav-link cursor-pointer">Logout</span>
+                    <span onClick={logOut} className="nav-link cursor-pointer">
+                      Logout
+                    </span>
                   </li>
                 </>
               ) : (
