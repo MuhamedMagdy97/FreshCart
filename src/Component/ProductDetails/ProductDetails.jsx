@@ -3,8 +3,20 @@ import style from "./ProductDetails.module.css";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
+import Slider from "react-slick";
 
 export default function ProductDetails() {
+  var settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 2000,
+  };
+
   const [detailes, setDetailes] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -16,7 +28,6 @@ export default function ProductDetails() {
     );
     setDetailes(data.data);
     setLoading(false);
-    console.log(data.data);
   }
 
   useEffect(() => {
@@ -37,10 +48,18 @@ export default function ProductDetails() {
           />
         </div>
       ) : (
-          
         <div className="row align-items-center py-5 mt-5">
           <div className="col-md-4">
-            <img src={detailes.imageCover} className="w-100 rounded" alt="" />
+            <Slider {...settings}>
+              {detailes.images.map((image) => (
+                <img
+                  src={image}
+                  className="w-100"
+                  key={detailes.id}
+                  alt={detailes.title}
+                />
+              ))}
+            </Slider>
           </div>
           <div className="col-md-8">
             <div className="details">

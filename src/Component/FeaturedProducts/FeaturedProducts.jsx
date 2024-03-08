@@ -36,7 +36,7 @@ export default function FeaturedProducts() {
       ) : (
         <div className="row gy-4">
           {products.map((product) => (
-            <div  className="col-lg-2 ">
+            <div  key={product.id} className="col-lg-2 ">
               <Link to={ `/productdetails/${product.id}`}>
                  <div className="product p-2">
                 <img src={product.imageCover} className="w-100" alt="" />
